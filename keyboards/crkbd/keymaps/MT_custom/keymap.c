@@ -4,6 +4,11 @@
 #define XXXXXXX KC_NO     // No key
 #define _______ KC_TRNS   // Transparent (fall through to lower layer)
 
+enum custom_keycodes {
+    COPY = SAFE_RANGE,
+    PASTE
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Layer 0 */
@@ -26,7 +31,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+---------+---------|
         XXXXXXX,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,     KC_0,   KC_F12,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+---------+---------|
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_LEFT,   KC_UP, KC_RGHT, KC_DOWN,  XXXXXXX,  XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_LEFT,   KC_UP, KC_DOWN, KC_RGHT,  XXXXXXX,  XXXXXXX,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+---------+---------|
                                             _______, _______, _______,    _______, _______,    MO(3)
                                         //`--------------------------'  `--------------------------'
@@ -57,11 +62,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             _______, _______, _______,    _______, _______, _______
                                         //`--------------------------'  `--------------------------'
     )
-};
-
-enum custom_keycodes {
-    COPY = SAFE_RANGE,
-    PASTE
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
