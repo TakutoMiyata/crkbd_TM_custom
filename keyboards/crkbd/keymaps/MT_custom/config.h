@@ -25,6 +25,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define QUICK_TAP_TERM 0
 // #define TAPPING_TERM 100
 
+// mousekey settings
+#define MOUSEKEY_DELAY 0        // 動作開始までの遅延（ミリ秒）
+#define MOUSEKEY_INTERVAL 16    // 移動更新の間隔（ミリ秒）
+#define MOUSEKEY_MAX_SPEED 10   // 最大速度
+#define MOUSEKEY_TIME_TO_MAX 60 // 最大速度に達するまでの時間（更新回数）
+
 // #ifdef RGBLIGHT_ENABLE
 // #    define RGBLIGHT_EFFECT_BREATHING
 // #    define RGBLIGHT_EFFECT_RAINBOW_MOOD

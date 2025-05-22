@@ -50,12 +50,34 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //,-----------------------------------------------------.                    ,-------------------------------------------------------.
         XXXXXXX, XXXXXXX, XXXXXXX,   MS_UP, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+---------+---------|
-        XXXXXXX, XXXXXXX, MS_LEFT, MS_DOWN, MS_RGHT, XXXXXXX,                      MS_BTN1, MS_WHLU, MS_BTN2, XXXXXXX,  XXXXXXX,  XXXXXXX,
+        XXXXXXX, XXXXXXX, MS_LEFT, MS_DOWN, MS_RGHT,    COPY,                        PASTE, MS_BTN1, MS_WHLU, MS_BTN2,  XXXXXXX,  XXXXXXX,  
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+---------+---------|
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, MS_WHLD, XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, MS_WHLD, XXXXXXX,  XXXXXXX,  XXXXXXX,  
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+---------+---------|
                                             _______, _______, _______,    _______, _______, _______
                                         //`--------------------------'  `--------------------------'
     )
 };
 
+enum custom_keycodes {
+    COPY = SAFE_RANGE,
+    PASTE
+};
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (record->event.pressed) {
+        switch (keycode) {
+            case COPY:
+                register_mods(MOD_BIT(KC_LGUI));
+                tap_code(KC_C);
+                unregister_mods(MOD_BIT(KC_LGUI));
+                return false;
+            case PASTE:
+                register_mods(MOD_BIT(KC_LGUI));
+                tap_code(KC_V);
+                unregister_mods(MOD_BIT(KC_LGUI));
+                return false;
+        }
+    }
+    return true;
+}
