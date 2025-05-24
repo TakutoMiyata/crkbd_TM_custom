@@ -5,7 +5,8 @@
 #define _______ KC_TRNS   // Transparent (fall through to lower layer)
 
 enum custom_keycodes {
-    COPY = SAFE_RANGE,
+    EMOJI = SAFE_RANGE,
+    COPY,
     PASTE
 };
 
@@ -14,9 +15,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Layer 0 */
     [0] = LAYOUT_split_3x6_3(
     //,-----------------------------------------------------.                    ,------------------------------------------------------.
-         KC_ESC,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,  KC_MINS,
+         KC_ESC,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    EMOJI,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+---------|
-         KC_TAB,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L,  KC_SCLN,  KC_ENT,
+         KC_TAB,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L,  KC_SCLN, KC_MINS,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+---------+--------|
         KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT,  KC_SLSH, KC_LALT,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+---------+--------|
@@ -33,20 +34,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+---------+---------|
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_LEFT,   KC_UP, KC_DOWN, KC_RGHT,  XXXXXXX,  XXXXXXX,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+---------+---------|
-                                            _______, _______, _______,    _______, _______,    MO(3)
+                                            _______, _______, _______,     KC_DEL,  KC_ENT,   MO(3)
                                         //`--------------------------'  `--------------------------'
     ),
 
 /* Layer 2 */
     [2] = LAYOUT_split_3x6_3(
     //,-----------------------------------------------------.                    ,-------------------------------------------------------.
-        XXXXXXX, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_PIPE,  KC_TILD,  XXXXXXX,
+        XXXXXXX, KC_EXLM, KC_QUOT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_PIPE,  KC_TILD,  XXXXXXX,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+---------+---------|
-        XXXXXXX, XXXXXXX, XXXXXXX,   KC_LT, KC_LCBR, KC_LPRN,                      KC_RPRN, KC_RCBR, KC_GT,   XXXXXXX,  XXXXXXX,  XXXXXXX,
+        XXXXXXX, XXXXXXX, KC_LBRC,   KC_LT, KC_LCBR, KC_LPRN,                      KC_RPRN, KC_RCBR,   KC_GT, KC_RBRC,  XXXXXXX,  XXXXXXX,
     //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+---------+---------|
         XXXXXXX, XXXXXXX, KC_PSLS, KC_PAST, KC_PMNS, KC_PPLS,                      KC_PEQL, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX,
     //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+---------+---------|
-                                              MO(3), _______, _______,    _______, _______, _______
+                                              MO(3),   KC_AT, S(KC_QUOT), _______, _______, _______
                                         //`--------------------------'  `--------------------------'
     ),
 
@@ -76,6 +77,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 register_mods(MOD_BIT(KC_LGUI));
                 tap_code(KC_V);
                 unregister_mods(MOD_BIT(KC_LGUI));
+                return false;
+            case EMOJI:
+                if (record->event.pressed) {
+                    // Control + Command + Space を送信
+                    register_code(KC_LCTL);
+                    register_code(KC_LGUI);
+                    register_code(KC_SPC);
+                    unregister_code(KC_SPC);
+                    unregister_code(KC_LGUI);
+                    unregister_code(KC_LCTL);
+                }
                 return false;
         }
     }
